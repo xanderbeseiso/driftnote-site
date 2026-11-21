@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#100C1E">
+<title>Driftnote: catch the idea before you sleep on it</title>
+<meta name="description" content="Drop a thought in one tap. Driftnote's AI sorts it, links it to your other ideas and hands you a first move in the morning. Join the early access list.">
+<meta property="og:title" content="Driftnote">
+<meta property="og:description" content="Catch the idea before you sleep on it. Join early access.">
+<meta property="og:image" content="img/og.png">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<style>
+@font-face{font-family:Nunito;src:url(nunito.woff2) format('woff2');font-weight:200 1000;font-display:swap}
+:root{--bg:#100C1E;--bg2:#17122B;--card:#1E1835;--line:rgba(255,255,255,.08);--txt:#F4F1FA;--mut:#A9A2BF;--acc:#F7936A;--acc2:#FFB38F}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:Nunito,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+nav{position:sticky;top:0;z-index:10;background:rgba(16,12,30,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;text-decoration:none;letter-spacing:-.3px}
+.logo img{width:30px;height:30px;border-radius:8px}
+.navbtn{font-weight:800;font-size:15px;text-decoration:none;background:var(--acc);color:#1A1020;padding:9px 16px;border-radius:999px}
+.hero{position:relative;padding:56px 0 30px;overflow:hidden}
+.glow{position:absolute;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,106,.22),transparent 65%);top:-200px;right:-180px;pointer-events:none}
+.stars{position:absolute;inset:0;background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff8,transparent),radial-gradient(1px 1px at 78% 12%,#fff7,transparent),radial-gradient(1.5px 1.5px at 62% 38%,#fff5,transparent),radial-gradient(1px 1px at 30% 70%,#fff4,transparent),radial-gradient(1px 1px at 90% 60%,#fff6,transparent);pointer-events:none}
+.hgrid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--acc2);background:rgba(247,147,106,.12);border:1px solid rgba(247,147,106,.25);padding:6px 12px;border-radius:999px;margin-bottom:20px}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+h1{font-size:clamp(40px,6.4vw,68px);line-height:1.02;font-weight:900;letter-spacing:-1.8px}
+h1 em{font-style:normal;color:var(--acc)}
+.sub{font-size:clamp(17px,2.1vw,20px);color:var(--mut);margin:20px 0 28px;max-width:520px}
+form.join{display:flex;gap:8px;max-width:480px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px}
+form.join input[type=email]{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--txt);font:600 16px Nunito,sans-serif;padding:12px 12px}
+form.join input::placeholder{color:#7d7694}
+form.join button{border:0;background:var(--acc);color:#1A1020;font:900 16px Nunito,sans-serif;padding:12px 18px;border-radius:11px;cursor:pointer;white-space:nowrap}
+form.join button:disabled{opacity:.6}
+.hp{position:absolute;left:-9999px}
+.msg{min-height:24px;margin-top:10px;font-size:15px;font-weight:700}
+.msg.ok{color:#8FE3B0}.msg.err{color:#FF8D8D}
+.fine{font-size:13px;color:#7d7694;margin-top:6px}
+.phone{justify-self:center;width:min(300px,78vw);aspect-ratio:585/1266;border-radius:44px;border:9px solid #241E3A;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 120px rgba(247,147,106,.22),0 30px 80px rgba(0,0,0,.6);transform:rotate(2deg)}
+.phone img{width:100%;height:100%;object-fit:cover;display:block}
+section{padding:72px 0}
+.eyebrow{font-size:13px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:var(--acc);margin-bottom:12px}
+h2{font-size:clamp(30px,4.4vw,44px);line-height:1.08;font-weight:900;letter-spacing:-1px;max-width:640px}
+.lead{color:var(--mut);font-size:18px;margin-top:14px;max-width:560px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.step{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:24px}
+.step b{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(247,147,106,.14);color:var(--acc);font-weight:900;margin-bottom:14px}
+.step h3{font-size:20px;font-weight:900;margin-bottom:6px}
+.step p{color:var(--mut);font-size:16px}
+.shots{display:flex;gap:18px;margin-top:44px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.shots::-webkit-scrollbar{display:none}
+.shot{flex:0 0 240px;scroll-snap-align:start}
+.shot .ph{aspect-ratio:585/1266;border-radius:32px;border:7px solid #241E3A;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot p{margin-top:12px;font-weight:800;font-size:15px}
+.shot span{display:block;color:var(--mut);font-weight:600;font-size:14px}
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:36px}
+.feat{display:flex;gap:14px;background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:20px}
+.feat .ic{flex:0 0 40px;height:40px;border-radius:12px;background:rgba(247,147,106,.12);display:grid;place-items:center;font-size:20px}
+.feat h3{font-size:17px;font-weight:900}
+.feat p{color:var(--mut);font-size:15px}
+.discord{display:flex;align-items:center;justify-content:space-between;gap:24px;background:linear-gradient(135deg,#2A2150,#1C1636);border:1px solid var(--line);border-radius:26px;padding:34px}
+.discord h2{font-size:clamp(26px,3.4vw,34px)}
+.btn2{display:inline-flex;align-items:center;gap:10px;background:#5865F2;color:#fff;text-decoration:none;font-weight:900;padding:14px 22px;border-radius:14px;white-space:nowrap}
+.faq{margin-top:30px;max-width:720px}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;font-weight:900;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--acc);font-size:22px;line-height:1}
+details[open] summary::after{content:'−'}
+details p{color:var(--mut);margin-top:10px;font-size:16px}
+.final{text-align:center;padding:80px 0 90px}
+.final h2{margin:0 auto}
+.final .lead{margin:14px auto 28px}
+.final form.join{margin:0 auto}
+footer{border-top:1px solid var(--line);padding:28px 0 calc(28px + env(safe-area-inset-bottom));color:#7d7694;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{text-decoration:none;margin-left:16px}
+@media (max-width:820px){
+ .hgrid{grid-template-columns:1fr;gap:44px}
+ .hero{padding-top:36px}
+ .phone{width:min(260px,70vw)}
+ .steps,.feats{grid-template-columns:1fr}
+ .discord{flex-direction:column;align-items:flex-start;padding:26px}
+ section{padding:56px 0}
+}
+@media (max-width:420px){
+ form.join{flex-direction:column}
+ form.join button{width:100%;padding:14px}
+}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="logo" href="#"><img src="img/icon-192.png" alt="">Driftnote</a>
+  <a class="navbtn" href="#join">Get early access</a>
+</div></nav>
+
+<header class="hero">
+  <div class="glow"></div><div class="stars"></div>
+  <div class="wrap hgrid">
+    <div>
+      <div class="pill"><i></i>Early access opening in batches</div>
+      <h1>Catch the idea before you <em>sleep on it.</em></h1>
+      <p class="sub">Drop a thought in one tap. Driftnote's AI sorts it, links it to your other ideas and hands you a first move in the morning.</p>
+      <form class="join" id="join" novalidate>
+        <input type="email" name="email_address" placeholder="you@email.com" autocomplete="email" inputmode="email" aria-label="Email" required>
+        <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Join the list</button>
+      </form>
+      <p class="msg" role="status"></p>
+      <p class="fine">Free 7-day trial when you're let in. No spam, ever.</p>
+    </div>
+    <div class="phone"><img src="img/home.webp" alt="Driftnote home screen with sorted business ideas"></div>
+  </div>
+</header>
+
+<section id="how"><div class="wrap">
+  <div class="eyebrow">How it works</div>
+  <h2>Your notes app is where ideas go to die. This is where they get worked.</h2>
+  <div class="steps">
+    <div class="step"><b>1</b><h3>Drop it</h3><p>Type it or say it. Half-baked at 2am is fine. One tap and it's saved.</p></div>
+    <div class="step"><b>2</b><h3>AI sorts it</h3><p>Driftnote files it with your other ideas, scores the potential and links what's related.</p></div>
+    <div class="step"><b>3</b><h3>Wake up to a move</h3><p>Every idea gets a clear next step, so the good ones actually get built.</p></div>
+  </div>
+  <div class="shots">
+    <div class="shot"><div class="ph"><img src="img/capture.webp" alt="" loading="lazy"></div><p>Capture in seconds<span>Quick thought or deep dive</span></p></div>
+    <div class="shot"><div class="ph"><img src="img/ideas.webp" alt="" loading="lazy"></div><p>Every idea sorted<span>Categories, scores, links</span></p></div>
+    <div class="shot"><div class="ph"><img src="img/home.webp" alt="" loading="lazy"></div><p>Today's quests<span>The next move on each idea</span></p></div>
+    <div class="shot"><div class="ph"><img src="img/badge.webp" alt="" loading="lazy"></div><p>Level up as you build<span>Badges, streaks and ranks</span></p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="eyebrow">Built for builders</div>
+  <h2>Made for founders, side hustlers and anyone with too many ideas.</h2>
+  <div class="feats">
+    <div class="feat"><div class="ic">🌙</div><div><h3>Bedtime capture</h3><p>Get it out of your head so you can actually sleep.</p></div></div>
+    <div class="feat"><div class="ic">🧠</div><div><h3>AI that plans</h3><p>Angles, risks and first steps for every idea, not just storage.</p></div></div>
+    <div class="feat"><div class="ic">🔗</div><div><h3>Connected thinking</h3><p>Related ideas link up on their own, like a second brain.</p></div></div>
+    <div class="feat"><div class="ic">💬</div><div><h3>Ask your ideas</h3><p>"Which of these could make money fastest?" Get a straight answer.</p></div></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="discord">
+    <div>
+      <div class="eyebrow">Community</div>
+      <h2>Build with other founders.</h2>
+      <p class="lead">Share what you're working on, get early builds first and tell us what to make next.</p>
+    </div>
+    <a class="btn2" id="discord" href="https://discord.gg/H5BUD9Ap6h" target="_blank" rel="noopener">Join the Discord</a>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="eyebrow">FAQ</div>
+  <h2>Questions</h2>
+  <div class="faq">
+    <details><summary>When can I use it?</summary><p>We're letting people in from the list in small batches every week. Join now and you'll get an email when it's your turn.</p></details>
+    <details><summary>Is it free?</summary><p>Every new account gets a free 7-day trial. After that, Pro is $8.99 a month or $74.99 a year.</p></details>
+    <details><summary>Is there an iPhone app?</summary><p>Driftnote runs in your browser and installs to your home screen like an app. The App Store version comes next, and the list hears about it first.</p></details>
+    <details><summary>Are my ideas private?</summary><p>Yes. Your ideas belong to you and are never shared or sold.</p></details>
+  </div>
+</div></section>
+
+<section class="final"><div class="wrap">
+  <h2>Your next big idea is coming tonight.</h2>
+  <p class="lead">Be ready for it. Join the early access list.</p>
+  <form class="join" novalidate>
+    <input type="email" name="email_address" placeholder="you@email.com" autocomplete="email" inputmode="email" aria-label="Email" required>
+    <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">Join the list</button>
+  </form>
+  <p class="msg" role="status"></p>
+</div></section>
+
+<footer><div class="wrap">
+  <span>© 2026 Driftnote</span>
+  <span><a href="https://www.tiktok.com/@driftnote" target="_blank" rel="noopener">TikTok</a><a href="https://discord.gg/H5BUD9Ap6h" target="_blank" rel="noopener">Discord</a></span>
+</div></footer>
+
+<script>
+const KIT_FORM_ID = "10221688";
+document.querySelectorAll("form.join").forEach(f => {
+  const msg = f.nextElementSibling;
+  f.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (f.company.value) return;
+    const email = f.email_address.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { msg.className = "msg err"; msg.textContent = "That email doesn't look right. Check it and try again."; return; }
+    const btn = f.querySelector("button"); btn.disabled = true; btn.textContent = "Joining…";
+    try {
+      const body = new FormData(); body.append("email_address", email);
+      const r = await fetch(`https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`, { method: "POST", body, headers: { Accept: "application/json" } });
+      if (!r.ok) throw 0;
+      f.remove(); msg.className = "msg ok"; msg.textContent = "You're on the list. We'll email you when it's your turn.";
+    } catch {
+      btn.disabled = false; btn.textContent = "Join the list";
+      msg.className = "msg err"; msg.textContent = "Something went wrong. Try again in a moment.";
+    }
+  });
+});
+</script>
+</body>
+</html>
