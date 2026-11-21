@@ -290,7 +290,6 @@ form.join:focus-within{border-color:rgba(247,147,106,.6);box-shadow:0 0 0 4px rg
 // cycle the hero phone screens
 (function(){const imgs=[...document.querySelectorAll('.phone img')];if(imgs.length<2||matchMedia('(prefers-reduced-motion: reduce)').matches)return;let k=0;
  setInterval(()=>{const old=imgs[k];old.classList.add('prev');old.classList.remove('on');k=(k+1)%imgs.length;imgs[k].classList.add('on');setTimeout(()=>old.classList.remove('prev'),1100)},3400)})();
-const KIT_FORM_ID = "10221688";
 document.querySelectorAll("form.join").forEach(f => {
   const msg = f.nextElementSibling;
   f.addEventListener("submit", async e => {
@@ -300,10 +299,9 @@ document.querySelectorAll("form.join").forEach(f => {
     if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) { msg.className = "msg err"; msg.textContent = "That email doesn't look right. Check it and try again."; return; }
     const btn = f.querySelector("button"); btn.disabled = true; btn.textContent = "Joining…";
     try {
-      const body = new FormData(); body.append("email_address", email);
-      const r = await fetch(`https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`, { method: "POST", body, headers: { Accept: "application/json" } });
+      const r = await fetch("/api/subscribe", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) });
       if (!r.ok) throw 0;
-      f.remove(); msg.className = "msg ok"; msg.textContent = "You're on the list. We'll email you when it's your turn.";
+      f.remove(); msg.className = "msg ok"; msg.textContent = "You're on the list. Check your inbox for a welcome email.";
     } catch {
       btn.disabled = false; btn.textContent = "Join the list";
       msg.className = "msg err"; msg.textContent = "Something went wrong. Try again in a moment.";
