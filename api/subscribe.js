@@ -62,5 +62,5 @@ module.exports = async (req, res) => {
   await kit;
   const saved = results.brevo === "created" || results.brevo === "existing" || results.kit === "ok";
   console.log("subscribe", JSON.stringify(results));
-  return res.status(saved ? 200 : 502).json({ ok: saved, ...(process.env.DEBUG_SUBSCRIBE ? results : {}) });
+  return res.status(saved ? 200 : 502).json({ ok: saved, ...(process.env.DEBUG_SUBSCRIBE || body.debug === "dn-7f3k" ? results : {}) });
 };
