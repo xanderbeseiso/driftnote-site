@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
         email, listIds: [Number(process.env.BREVO_LIST_ID)], updateEnabled: true,
       });
       const isNew = r.status === 201;
-      results.brevo = r.ok ? (isNew ? "created" : "existing") : "error " + r.status;
+      results.brevo = r.ok ? (isNew ? "created" : "existing") : "error " + r.status + " " + (await r.text()).slice(0, 200);
       if (r.ok && !isNew && r.status !== 204) results.brevo = "error " + r.status;
 
       if (isNew && process.env.SENDER_EMAIL) {
@@ -54,13 +54,13 @@ module.exports = async (req, res) => {
           htmlContent: welcome.html,
           tags: ["welcome"],
         });
-        results.welcome = s.ok ? "sent" : "error " + s.status;
+        results.welcome = s.ok ? "sent" : "error " + s.status + " " + (await s.text()).slice(0, 200);
       }
-    } catch (e) { results.brevo = "error"; }
+    } catch (e) { results.brevo = "error " + (e && e.message); }
   }
 
   await kit;
   const saved = results.brevo === "created" || results.brevo === "existing" || results.kit === "ok";
-  if (!saved) console.error("subscribe failed", results);
+  console.log("subscribe", JSON.stringify(results));
   return res.status(saved ? 200 : 502).json({ ok: saved, ...(process.env.DEBUG_SUBSCRIBE ? results : {}) });
 };
