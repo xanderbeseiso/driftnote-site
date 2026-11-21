@@ -94,6 +94,50 @@ footer a{text-decoration:none;margin-left:16px}
  form.join{flex-direction:column}
  form.join button{width:100%;padding:14px}
 }
+
+/* ---------- motion ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+.hmark{width:92px;height:85px;margin-bottom:14px;display:block}
+.hmark .cloud{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.2s .2s cubic-bezier(.6,.1,.3,1) forwards}
+.hmark .b1,.hmark .b2{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .5s cubic-bezier(.3,1.6,.5,1) forwards}
+.hmark .b1{animation-delay:2.2s}.hmark .b2{animation-delay:2.45s}
+.hmark .pencil{animation:scribble 2.2s .2s ease-in-out forwards, bob 3s 2.6s ease-in-out infinite}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+@keyframes scribble{0%{transform:translate(-40px,30px) rotate(-6deg);opacity:0}15%{opacity:1}35%{transform:translate(-14px,-10px) rotate(3deg)}60%{transform:translate(10px,8px) rotate(-3deg)}100%{transform:none;opacity:1}}
+@keyframes bob{0%,100%{transform:none}50%{transform:translate(-4px,-6px) rotate(-3deg)}}
+h1 .w{display:inline-block;opacity:0;transform:translateY(.4em);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(.15s + var(--i)*.07s)}
+@keyframes rise{to{opacity:1;transform:none}}
+h1 em{background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.fadein{opacity:0;animation:fadein .9s ease forwards;animation-delay:var(--d,0s)}
+@keyframes fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.glow{animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.75}}
+.stars{animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.45}to{opacity:1}}
+.phonewrap{justify-self:center;animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.phone{position:relative}
+.phone img{position:absolute;inset:0;opacity:0;transition:opacity 1s ease}
+.phone img.on{opacity:1}
+.pill i{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(247,147,106,.6)}50%{box-shadow:0 0 0 7px rgba(247,147,106,0)}}
+form.join button,.navbtn,.btn2{transition:transform .2s ease,box-shadow .2s ease,filter .2s}
+form.join button:hover,.navbtn:hover,.btn2:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(247,147,106,.35);filter:brightness(1.05)}
+form.join button:active,.navbtn:active,.btn2:active{transform:translateY(0) scale(.98)}
+form.join{transition:border-color .25s,box-shadow .25s}
+form.join:focus-within{border-color:rgba(247,147,106,.6);box-shadow:0 0 0 4px rgba(247,147,106,.12)}
+.step,.feat,.shot .ph{transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.step:hover,.feat:hover{transform:translateY(-4px);border-color:rgba(247,147,106,.3);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.shot .ph:hover{transform:translateY(-6px) rotate(-1deg)}
+.msg.ok{animation:fadein .5s ease}
+@media (prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation:none!important;transition:none!important}
+ .reveal,h1 .w,.fadein{opacity:1!important;transform:none!important}
+ .hmark .cloud{stroke-dashoffset:0}.hmark .b1,.hmark .b2{transform:none}
+}
 </style>
 </head>
 <body>
@@ -106,63 +150,81 @@ footer a{text-decoration:none;margin-left:16px}
   <div class="glow"></div><div class="stars"></div>
   <div class="wrap hgrid">
     <div>
-      <div class="pill"><i></i>Early access opening in batches</div>
-      <h1>Catch the idea before you <em>sleep on it.</em></h1>
-      <p class="sub">Drop a thought in one tap. Driftnote's AI sorts it, links it to your other ideas and hands you a first move in the morning.</p>
-      <form class="join" id="join" novalidate>
+      <svg class="hmark" viewBox="150 100 860 790" aria-hidden="true">
+        <defs><linearGradient id="hk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC4A3"/><stop offset="1" stop-color="#F7936A"/></linearGradient>
+        <linearGradient id="hw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFE3D2"/><stop offset="1" stop-color="#F9B793"/></linearGradient></defs>
+        <g transform="translate(-20 40)">
+          <path class="cloud" pathLength="1" d="M 560 610 C 520 650, 430 652, 395 612 C 330 640, 245 600, 250 530 C 185 505, 185 410, 255 385 C 245 300, 335 250, 405 285 C 440 215, 560 205, 600 275 C 670 240, 760 290, 745 370 C 815 395, 815 490, 750 515" fill="none" stroke="url(#hk)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle class="b1" cx="300" cy="700" r="34" fill="url(#hk)"/>
+          <circle class="b2" cx="225" cy="790" r="20" fill="url(#hk)"/>
+          <g class="pencil"><g transform="translate(752 532) rotate(38) scale(.86)">
+            <path d="M0 0 L -22 -58 L 22 -58 Z" fill="#2A1F4E"/>
+            <path d="M -22 -58 L -46 -120 L 46 -120 L 22 -58 Z" fill="url(#hw)"/>
+            <rect x="-46" y="-290" width="92" height="170" fill="url(#hk)"/>
+            <rect x="-46" y="-290" width="30" height="170" fill="#fff" opacity=".18"/>
+            <rect x="-48" y="-332" width="96" height="44" rx="6" fill="#D9D2EA"/>
+            <rect x="-48" y="-316" width="96" height="8" fill="#ABA2C6"/>
+            <rect x="-46" y="-388" width="92" height="58" rx="22" fill="#FF8A8A"/>
+          </g></g>
+        </g>
+      </svg>
+      <div class="pill fadein" style="--d:.1s"><i></i>Early access opening in batches</div>
+      <h1 id="hh">Catch the idea before you <em>sleep on it.</em></h1>
+      <p class="sub fadein" style="--d:.75s">Drop a thought in one tap. Driftnote's AI sorts it, links it to your other ideas and hands you a first move in the morning.</p>
+      <form class="join fadein" style="--d:.9s" id="join" novalidate>
         <input type="email" name="email_address" placeholder="you@email.com" autocomplete="email" inputmode="email" aria-label="Email" required>
         <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button type="submit">Join the list</button>
       </form>
       <p class="msg" role="status"></p>
-      <p class="fine">Free 7-day trial when you're let in. No spam, ever.</p>
+      <p class="fine fadein" style="--d:1s">Free 7-day trial when you're let in. No spam, ever.</p>
     </div>
-    <div class="phone"><img src="img/home.webp" alt="Driftnote home screen with sorted business ideas"></div>
+    <div class="phonewrap fadein" style="--d:.5s"><div class="phone"><img class="on" src="img/home.webp" alt="Driftnote home screen with sorted business ideas"><img src="img/ideas.webp" alt="" loading="lazy"><img src="img/capture.webp" alt="" loading="lazy"><img src="img/badge.webp" alt="" loading="lazy"></div></div>
   </div>
 </header>
 
 <section id="how"><div class="wrap">
-  <div class="eyebrow">How it works</div>
-  <h2>Your notes app is where ideas go to die. This is where they get worked.</h2>
+  <div class="eyebrow reveal">How it works</div>
+  <h2 class="reveal" style="--d:.08s">Your notes app is where ideas go to die. This is where they get worked.</h2>
   <div class="steps">
-    <div class="step"><b>1</b><h3>Drop it</h3><p>Type it or say it. Half-baked at 2am is fine. One tap and it's saved.</p></div>
-    <div class="step"><b>2</b><h3>AI sorts it</h3><p>Driftnote files it with your other ideas, scores the potential and links what's related.</p></div>
-    <div class="step"><b>3</b><h3>Wake up to a move</h3><p>Every idea gets a clear next step, so the good ones actually get built.</p></div>
+    <div class="step reveal" style="--d:0.1s"><b>1</b><h3>Drop it</h3><p>Type it or say it. Half-baked at 2am is fine. One tap and it's saved.</p></div>
+    <div class="step reveal" style="--d:0.2s"><b>2</b><h3>AI sorts it</h3><p>Driftnote files it with your other ideas, scores the potential and links what's related.</p></div>
+    <div class="step reveal" style="--d:0.3s"><b>3</b><h3>Wake up to a move</h3><p>Every idea gets a clear next step, so the good ones actually get built.</p></div>
   </div>
   <div class="shots">
-    <div class="shot"><div class="ph"><img src="img/capture.webp" alt="" loading="lazy"></div><p>Capture in seconds<span>Quick thought or deep dive</span></p></div>
-    <div class="shot"><div class="ph"><img src="img/ideas.webp" alt="" loading="lazy"></div><p>Every idea sorted<span>Categories, scores, links</span></p></div>
-    <div class="shot"><div class="ph"><img src="img/home.webp" alt="" loading="lazy"></div><p>Today's quests<span>The next move on each idea</span></p></div>
-    <div class="shot"><div class="ph"><img src="img/badge.webp" alt="" loading="lazy"></div><p>Level up as you build<span>Badges, streaks and ranks</span></p></div>
+    <div class="shot reveal" style="--d:0.1s"><div class="ph"><img src="img/capture.webp" alt="" loading="lazy"></div><p>Capture in seconds<span>Quick thought or deep dive</span></p></div>
+    <div class="shot reveal" style="--d:0.2s"><div class="ph"><img src="img/ideas.webp" alt="" loading="lazy"></div><p>Every idea sorted<span>Categories, scores, links</span></p></div>
+    <div class="shot reveal" style="--d:0.3s"><div class="ph"><img src="img/home.webp" alt="" loading="lazy"></div><p>Today's quests<span>The next move on each idea</span></p></div>
+    <div class="shot reveal" style="--d:0.4s"><div class="ph"><img src="img/badge.webp" alt="" loading="lazy"></div><p>Level up as you build<span>Badges, streaks and ranks</span></p></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <div class="eyebrow">Built for builders</div>
-  <h2>Made for founders, side hustlers and anyone with too many ideas.</h2>
+  <div class="eyebrow reveal">Built for builders</div>
+  <h2 class="reveal" style="--d:.08s">Made for founders, side hustlers and anyone with too many ideas.</h2>
   <div class="feats">
-    <div class="feat"><div class="ic">🌙</div><div><h3>Bedtime capture</h3><p>Get it out of your head so you can actually sleep.</p></div></div>
-    <div class="feat"><div class="ic">🧠</div><div><h3>AI that plans</h3><p>Angles, risks and first steps for every idea, not just storage.</p></div></div>
-    <div class="feat"><div class="ic">🔗</div><div><h3>Connected thinking</h3><p>Related ideas link up on their own, like a second brain.</p></div></div>
-    <div class="feat"><div class="ic">💬</div><div><h3>Ask your ideas</h3><p>"Which of these could make money fastest?" Get a straight answer.</p></div></div>
+    <div class="feat reveal" style="--d:0.08s"><div class="ic">🌙</div><div><h3>Bedtime capture</h3><p>Get it out of your head so you can actually sleep.</p></div></div>
+    <div class="feat reveal" style="--d:0.16s"><div class="ic">🧠</div><div><h3>AI that plans</h3><p>Angles, risks and first steps for every idea, not just storage.</p></div></div>
+    <div class="feat reveal" style="--d:0.24s"><div class="ic">🔗</div><div><h3>Connected thinking</h3><p>Related ideas link up on their own, like a second brain.</p></div></div>
+    <div class="feat reveal" style="--d:0.32s"><div class="ic">💬</div><div><h3>Ask your ideas</h3><p>"Which of these could make money fastest?" Get a straight answer.</p></div></div>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <div class="discord">
+  <div class="discord reveal">
     <div>
-      <div class="eyebrow">Community</div>
-      <h2>Build with other founders.</h2>
-      <p class="lead">Share what you're working on, get early builds first and tell us what to make next.</p>
+      <div class="eyebrow reveal">Community</div>
+      <h2 class="reveal" style="--d:.08s">Build with other founders.</h2>
+      <p class="lead reveal" style="--d:.16s">Share what you're working on, get early builds first and tell us what to make next.</p>
     </div>
     <a class="btn2" id="discord" href="https://discord.gg/H5BUD9Ap6h" target="_blank" rel="noopener">Join the Discord</a>
   </div>
 </div></section>
 
 <section><div class="wrap">
-  <div class="eyebrow">FAQ</div>
-  <h2>Questions</h2>
-  <div class="faq">
+  <div class="eyebrow reveal">FAQ</div>
+  <h2 class="reveal" style="--d:.08s">Questions</h2>
+  <div class="faq reveal" style="--d:.1s">
     <details><summary>When can I use it?</summary><p>We're letting people in from the list in small batches every week. Join now and you'll get an email when it's your turn.</p></details>
     <details><summary>Is it free?</summary><p>Every new account gets a free 7-day trial. After that, Pro is $8.99 a month or $74.99 a year.</p></details>
     <details><summary>Is there an iPhone app?</summary><p>Driftnote runs in your browser and installs to your home screen like an app. The App Store version comes next, and the list hears about it first.</p></details>
@@ -170,9 +232,9 @@ footer a{text-decoration:none;margin-left:16px}
   </div>
 </div></section>
 
-<section class="final"><div class="wrap">
-  <h2>Your next big idea is coming tonight.</h2>
-  <p class="lead">Be ready for it. Join the early access list.</p>
+<section class="final"><div class="wrap reveal">
+  <h2 class="reveal" style="--d:.08s">Your next big idea is coming tonight.</h2>
+  <p class="lead reveal" style="--d:.16s">Be ready for it. Join the early access list.</p>
   <form class="join" novalidate>
     <input type="email" name="email_address" placeholder="you@email.com" autocomplete="email" inputmode="email" aria-label="Email" required>
     <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -187,6 +249,19 @@ footer a{text-decoration:none;margin-left:16px}
 </div></footer>
 
 <script>
+
+// split headline into words for the staggered rise
+(function(){const h=document.getElementById('hh');let i=0;
+ const wrap=n=>{if(n.nodeType===3){const f=document.createDocumentFragment();n.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){f.append(t);return}const s=document.createElement('span');s.className='w';s.style.setProperty('--i',i++);s.textContent=t;f.append(s)});n.replaceWith(f)}else if(n.nodeType===1&&n.tagName!=='EM'){[...n.childNodes].forEach(wrap)}else if(n.tagName==='EM'){const s=document.createElement('span');s.className='w';s.style.setProperty('--i',i++);n.replaceWith(s);s.append(n)}};
+ [...h.childNodes].forEach(wrap)})();
+// reveal on scroll
+(function(){const els=document.querySelectorAll('.reveal');
+ if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12});
+ els.forEach(e=>io.observe(e))})();
+// cycle the hero phone screens
+(function(){const imgs=[...document.querySelectorAll('.phone img')];if(imgs.length<2||matchMedia('(prefers-reduced-motion: reduce)').matches)return;let k=0;
+ setInterval(()=>{imgs[k].classList.remove('on');k=(k+1)%imgs.length;imgs[k].classList.add('on')},3200)})();
 const KIT_FORM_ID = "10221688";
 document.querySelectorAll("form.join").forEach(f => {
   const msg = f.nextElementSibling;
